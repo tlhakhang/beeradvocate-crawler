@@ -30,7 +30,7 @@ let getBeerStats = () => {
     }).then((beerPromises) => {
       RSVP.all(beerPromises).then((results) => {
         console.log(results);
-      })
+      });
     });
 }
 
