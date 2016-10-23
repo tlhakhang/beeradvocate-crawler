@@ -58,19 +58,34 @@
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-	var beerCrawlJob = function beerCrawlJob() {
-	    var promises = [];
-
-	    _lodash2.default.range(0, 17).forEach(function (i) {
-	        var startKey = 1;
-	        if (i != 0) startKey = 25 * i;
-	        (0, _crawlerService.getBeers)('https://www.beeradvocate.com/beer/?start=' + startKey).then(function (result) {
-	            console.log(result);
-	        });
-	    });
+	var config = {
+	  address: 'https://beeradvocate.com'
 	};
 
-	beerCrawlJob();
+	var getBeerStats = function getBeerStats() {
+	  var promises = [];
+
+	  _lodash2.default.range(0, 17).forEach(function (i) {
+	    var startKey = 0;
+	    if (i != 0) startKey = 25 * i;
+	    // console.log(startKey); -- debug the startKey variable
+	    promises.push((0, _crawlerService.getBeers)(config.address + '/beer/?start=' + startKey));
+	  });
+
+	  return _rsvp2.default.all(promises).then(function (results) {
+	    return _lodash2.default.flattenDeep(results);
+	  }).then(function (beerProfileLinks) {
+	    return beerProfileLinks.slice(0, 10).map(function (link) {
+	      return (0, _crawlerService.getBeer)('' + config.address + link);
+	    });
+	  }).then(function (beerPromises) {
+	    _rsvp2.default.all(beerPromises).then(function (results) {
+	      console.log(results);
+	    });
+	  });
+	};
+
+	getBeerStats();
 
 /***/ },
 /* 1 */
@@ -99,7 +114,9 @@
 	  }).then(function (body) {
 	    // process the text body of beers list
 	    var $ = _cheerio2.default.load(body);
-	    var beers = [];
+	    var beers = Array.prototype.map.call($('#rating_fullview_content_2 > h6 > a'), function (i) {
+	      return $(i).attr('href');
+	    });
 	    return beers;
 	  }).catch(function (err) {
 	    console.log(err);
@@ -107,12 +124,17 @@
 	};
 
 	var getBeer = function getBeer(url) {
+	  console.log('going to ', url);
 	  return (0, _nodeFetch2.default)(url).then(function (resp) {
 	    return resp.text();
 	  }).then(function (body) {
 	    // process the text body of the beer profile
 	    var $ = _cheerio2.default.load(body);
-	    var beer = {};
+	    var title = $('.titleBar > h1').text();
+	    var beer = {
+	      name: title.split(' | ')[0],
+	      brewery: title.split(' | ')[1]
+	    };
 	    return beer;
 	  }).catch(function (err) {
 	    console.log(err);
