@@ -16,7 +16,7 @@ let findAvailableStateCodes = (url) => {
             // then get valid anchor tags that have the href attribute
             // then if the href attribute starts with the url.path return true else false
             // -- this logic was known by looking at the page structure
-            // the filteredNodes is an array that
+            // the filteredNodes is an array that contains all the valid state links
             let filteredNodes = Array.prototype.filter.call($('a'), function(i) {
                 let link = $(i).attr('href');
                 if (link && link.startsWith(url.path)) {
