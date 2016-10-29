@@ -3,6 +3,7 @@ import {
     findAvailableStateCodes,
     getBreweryCount,
     getBreweryLinks,
+    getBeerLinks,
     getBeers,
     getBeer
 } from './services/crawler-service';
@@ -34,11 +35,20 @@ let getBeerStats = () => {
                     promises.push(getBreweryLinks(url.parse(`${config.address}/place/list/?start=${startKey}&c_id=US&s_id=${stateCode}&brewery=Y`)))
                 });
             };
+            return RSVP.all(promises).then((result) => {
+              return _.flattenDeep(result);
+            });
+        })
+        .then((breweryLinks) => {
+            // get all beer links per brewery
+            var promises = [];
+            breweryLinks.map((link) => {
+              promises.push(getBeerLinks(url.parse(`${config.address}${link}`)));
+            });
             return RSVP.all(promises);
         })
-        .then((breweryLink) => {
-            // get all beer links per brewery
-            return _.flattenDeep(breweryLink);
+        .then((beerLinks) => {
+          console.log(beerLinks);
         });
 }
 

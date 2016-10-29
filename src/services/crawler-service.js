@@ -61,10 +61,8 @@ let getBreweryCount = (url) => {
 }
 
 let getBreweryLinks = (url) => {
-
-    console.log('getting specific links', url.href);
     // we are given a brewery list page
-    // go find all the brwery links
+    // go find all the brewery links
     return fetch(url.href)
         .then((resp) => {
             return resp.text();
@@ -83,7 +81,7 @@ let getBreweryLinks = (url) => {
             let validLinks = filteredNodes.map((node) => {
                 return $(node).attr('href');
             });
-            
+
             return validLinks;
         })
         .catch((err) => {
@@ -91,19 +89,34 @@ let getBreweryLinks = (url) => {
         })
 }
 
-let getBeers = (url) => {
-    return fetch(url).then((resp) => {
-        return resp.text();
-    }).then((body) => {
-        // process the text body of beers list
-        let $ = cheerio.load(body);
-        let beers = Array.prototype.map.call($('#rating_fullview_content_2 > h6 > a'), function(i) {
-            return $(i).attr('href');
+let getBeerLinks = (url) => {
+    // we are given the brewery page
+    // go find all beer links
+    return fetch(url.href)
+        .then((resp) => {
+            return resp.text();
+        })
+        .then((body) => {
+            // process the text body of beers list
+            let $ = cheerio.load(body);
+            let filteredNodes = Array.prototype.filter.call($('a'), function(i) {
+                let link = $(i).attr('href');
+                if (link && link.startsWith(url.path)) {
+                    return true
+                } else {
+                    return false
+                }
+            });
+
+            let validLinks = filteredNodes.map((node) => {
+                return $(node).attr('href');
+            });
+
+            return validLinks;
+        })
+        .catch((err) => {
+            console.log(err);
         });
-        return beers;
-    }).catch((err) => {
-        console.log(err);
-    });
 }
 
 let getBeer = (url) => {
@@ -133,6 +146,6 @@ export {
     findAvailableStateCodes,
     getBreweryCount,
     getBreweryLinks,
-    getBeers,
+    getBeerLinks,
     getBeer
 }

@@ -66,29 +66,6 @@
 	    address: 'https://beeradvocate.com'
 	};
 
-	var getBeerStatsOld = function getBeerStatsOld() {
-	    var promises = [];
-
-	    _lodash2.default.range(0, 17).forEach(function (i) {
-	        var startKey = 0;
-	        if (i != 0) startKey = 25 * i;
-	        // console.log(startKey); -- debug the startKey variable
-	        promises.push((0, _crawlerService.getBeers)(config.address + '/beer/?start=' + startKey));
-	    });
-
-	    _rsvp2.default.all(promises).then(function (results) {
-	        return _lodash2.default.flattenDeep(results);
-	    }).then(function (beerProfileLinks) {
-	        return beerProfileLinks.slice(0, 100).map(function (link) {
-	            return (0, _crawlerService.getBeer)('' + config.address + link);
-	        });
-	    }).then(function (beerPromises) {
-	        _rsvp2.default.all(beerPromises).then(function (results) {
-	            console.log(results);
-	        });
-	    });
-	};
-
 	var getBeerStats = function getBeerStats() {
 	    (0, _crawlerService.findAvailableStateCodes)(_url2.default.parse(config.address + '/place/directory/0/US/')).then(function (validStateCodes) {
 	        var promises = {};
@@ -98,6 +75,7 @@
 	        });
 	        return _rsvp2.default.hash(promises);
 	    }).then(function (breweryCountPerState) {
+	        // get all brewery links per state and condense them all to a large list of every brewery link
 	        var promises = [];
 	        console.log(breweryCountPerState);
 	        // this will now allow us to traverse the entire state's brewery list
@@ -111,9 +89,18 @@
 	        for (var stateCode in breweryCountPerState) {
 	            _loop(stateCode);
 	        };
+	        return _rsvp2.default.all(promises).then(function (result) {
+	            return _lodash2.default.flattenDeep(result);
+	        });
+	    }).then(function (breweryLinks) {
+	        // get all beer links per brewery
+	        var promises = [];
+	        breweryLinks.map(function (link) {
+	            promises.push((0, _crawlerService.getBeerLinks)(_url2.default.parse('' + config.address + link)));
+	        });
 	        return _rsvp2.default.all(promises);
-	    }).then(function (breweries) {
-	        console.log(_lodash2.default.flattenDeep(breweries).length);
+	    }).then(function (beerLinks) {
+	        console.log(beerLinks);
 	    });
 	};
 
@@ -128,7 +115,7 @@
 	Object.defineProperty(exports, "__esModule", {
 	    value: true
 	});
-	exports.getBeer = exports.getBeers = exports.getBreweryLinks = exports.getBreweryCount = exports.findAvailableStateCodes = undefined;
+	exports.getBeer = exports.getBeerLinks = exports.getBreweryLinks = exports.getBreweryCount = exports.findAvailableStateCodes = undefined;
 
 	var _nodeFetch = __webpack_require__(2);
 
@@ -192,10 +179,8 @@
 	};
 
 	var getBreweryLinks = function getBreweryLinks(url) {
-
-	    console.log('getting specific links', url.href);
 	    // we are given a brewery list page
-	    // go find all the brwery links
+	    // go find all the brewery links
 	    return (0, _nodeFetch2.default)(url.href).then(function (resp) {
 	        return resp.text();
 	    }).then(function (body) {
@@ -212,23 +197,35 @@
 	        var validLinks = filteredNodes.map(function (node) {
 	            return $(node).attr('href');
 	        });
-	        console.log(validLinks);
+
 	        return validLinks;
 	    }).catch(function (err) {
 	        console.log(err);
 	    });
 	};
 
-	var getBeers = function getBeers(url) {
-	    return (0, _nodeFetch2.default)(url).then(function (resp) {
+	var getBeerLinks = function getBeerLinks(url) {
+	    // we are given the brewery page
+	    // go find all beer links
+	    return (0, _nodeFetch2.default)(url.href).then(function (resp) {
 	        return resp.text();
 	    }).then(function (body) {
 	        // process the text body of beers list
 	        var $ = _cheerio2.default.load(body);
-	        var beers = Array.prototype.map.call($('#rating_fullview_content_2 > h6 > a'), function (i) {
-	            return $(i).attr('href');
+	        var filteredNodes = Array.prototype.filter.call($('a'), function (i) {
+	            var link = $(i).attr('href');
+	            if (link && link.startsWith(url.path)) {
+	                return true;
+	            } else {
+	                return false;
+	            }
 	        });
-	        return beers;
+
+	        var validLinks = filteredNodes.map(function (node) {
+	            return $(node).attr('href');
+	        });
+
+	        return validLinks;
 	    }).catch(function (err) {
 	        console.log(err);
 	    });
@@ -260,7 +257,7 @@
 	exports.findAvailableStateCodes = findAvailableStateCodes;
 	exports.getBreweryCount = getBreweryCount;
 	exports.getBreweryLinks = getBreweryLinks;
-	exports.getBeers = getBeers;
+	exports.getBeerLinks = getBeerLinks;
 	exports.getBeer = getBeer;
 
 /***/ },
