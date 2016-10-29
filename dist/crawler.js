@@ -66,7 +66,7 @@
 	    address: 'https://beeradvocate.com'
 	};
 
-	var getBeerStats = function getBeerStats() {
+	var getBeerStatsOld = function getBeerStatsOld() {
 	    var promises = [];
 
 	    _lodash2.default.range(0, 17).forEach(function (i) {
@@ -89,24 +89,35 @@
 	    });
 	};
 
-	//getBeerStats();
-
-	var getStateLinks = function getStateLinks() {
+	var getBeerStats = function getBeerStats() {
 	    (0, _crawlerService.findAvailableStateCodes)(_url2.default.parse(config.address + '/place/directory/0/US/')).then(function (validStateCodes) {
-	        // build your promises
 	        var promises = {};
-
 	        // go get the breweries count
-	        validStateCodes.map(function (stateCode) {
-	            promises[stateCode] = (0, _crawlerService.getBreweriesCount)(_url2.default.parse(config.address + '/place/list/?c_id=US&s_id=' + stateCode + '&brewery=Y'));
+	        validStateCodes.slice(0, 1).map(function (stateCode) {
+	            promises[stateCode] = (0, _crawlerService.getBreweryCount)(_url2.default.parse(config.address + '/place/list/?c_id=US&s_id=' + stateCode + '&brewery=Y'));
 	        });
 	        return _rsvp2.default.hash(promises);
-	    }).then(function (result) {
-	        console.log(result);
+	    }).then(function (breweryCountPerState) {
+	        var promises = [];
+	        console.log(breweryCountPerState);
+	        // this will now allow us to traverse the entire state's brewery list
+
+	        var _loop = function _loop(stateCode) {
+	            _lodash2.default.range(0, breweryCountPerState[stateCode], 20).forEach(function (startKey) {
+	                promises.push((0, _crawlerService.getBreweryLinks)(_url2.default.parse(config.address + '/place/list/?start=' + startKey + '&c_id=US&s_id=' + stateCode + '&brewery=Y')));
+	            });
+	        };
+
+	        for (var stateCode in breweryCountPerState) {
+	            _loop(stateCode);
+	        };
+	        return _rsvp2.default.all(promises);
+	    }).then(function (breweries) {
+	        console.log(_lodash2.default.flattenDeep(breweries).length);
 	    });
 	};
 
-	getStateLinks();
+	getBeerStats();
 
 /***/ },
 /* 1 */
@@ -117,7 +128,7 @@
 	Object.defineProperty(exports, "__esModule", {
 	    value: true
 	});
-	exports.getBeer = exports.getBeers = exports.getBrewery = exports.getBreweriesCount = exports.findAvailableStateCodes = undefined;
+	exports.getBeer = exports.getBeers = exports.getBreweryLinks = exports.getBreweryCount = exports.findAvailableStateCodes = undefined;
 
 	var _nodeFetch = __webpack_require__(2);
 
@@ -140,7 +151,7 @@
 	        // then get valid anchor tags that have the href attribute
 	        // then if the href attribute starts with the url.path return true else false
 	        // -- this logic was known by looking at the page structure
-	        // the filteredNodes is an array that
+	        // the filteredNodes is an array that contains all the valid state links
 	        var filteredNodes = Array.prototype.filter.call($('a'), function (i) {
 	            var link = $(i).attr('href');
 	            if (link && link.startsWith(url.path)) {
@@ -165,15 +176,14 @@
 	    });
 	};
 
-	var getBreweriesCount = function getBreweriesCount(url) {
+	var getBreweryCount = function getBreweryCount(url) {
 	    // url is a url object that will include the state code.
-	    console.log('going to ', url.href);
 	    return (0, _nodeFetch2.default)(url.href).then(function (resp) {
 	        return resp.text();
 	    }).then(function (body) {
 	        var $ = _cheerio2.default.load(body);
-	        //console.log(body);;
-	        // the below will selector will aim to get the total and using that we can find how far to traverse this state page.
+	        // the below will selector will aim to get the total
+	        // using that we can find how far to traverse this state's brewery list page.
 	        var countText = $('table tr td span b', '#ba-content').first().text();
 	        return countText.match(/out of (\d+)/g)[0].match(/(\d+)/g)[0];
 	    }).catch(function (err) {
@@ -181,7 +191,33 @@
 	    });
 	};
 
-	var getBrewery = function getBrewery(url) {};
+	var getBreweryLinks = function getBreweryLinks(url) {
+
+	    console.log('getting specific links', url.href);
+	    // we are given a brewery list page
+	    // go find all the brwery links
+	    return (0, _nodeFetch2.default)(url.href).then(function (resp) {
+	        return resp.text();
+	    }).then(function (body) {
+	        var $ = _cheerio2.default.load(body);
+	        var filteredNodes = Array.prototype.filter.call($('a'), function (i) {
+	            var link = $(i).attr('href');
+	            if (link && link.startsWith('/beer/profile/')) {
+	                return true;
+	            } else {
+	                return false;
+	            }
+	        });
+
+	        var validLinks = filteredNodes.map(function (node) {
+	            return $(node).attr('href');
+	        });
+	        console.log(validLinks);
+	        return validLinks;
+	    }).catch(function (err) {
+	        console.log(err);
+	    });
+	};
 
 	var getBeers = function getBeers(url) {
 	    return (0, _nodeFetch2.default)(url).then(function (resp) {
@@ -222,8 +258,8 @@
 	};
 
 	exports.findAvailableStateCodes = findAvailableStateCodes;
-	exports.getBreweriesCount = getBreweriesCount;
-	exports.getBrewery = getBrewery;
+	exports.getBreweryCount = getBreweryCount;
+	exports.getBreweryLinks = getBreweryLinks;
 	exports.getBeers = getBeers;
 	exports.getBeer = getBeer;
 

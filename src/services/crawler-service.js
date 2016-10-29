@@ -42,27 +42,53 @@ let findAvailableStateCodes = (url) => {
         });
 }
 
-let getBreweriesCount = (url) => {
+let getBreweryCount = (url) => {
     // url is a url object that will include the state code.
-    console.log('going to ', url.href);
     return fetch(url.href)
         .then((resp) => {
             return resp.text();
         })
         .then((body) => {
-          let $ = cheerio.load(body);
-          //console.log(body);;
-          // the below will selector will aim to get the total and using that we can find how far to traverse this state page.
-          let countText = $('table tr td span b', '#ba-content').first().text();
-          return countText.match(/out of (\d+)/g)[0].match(/(\d+)/g)[0];
+            let $ = cheerio.load(body);
+            // the below will selector will aim to get the total
+            // using that we can find how far to traverse this state's brewery list page.
+            let countText = $('table tr td span b', '#ba-content').first().text();
+            return countText.match(/out of (\d+)/g)[0].match(/(\d+)/g)[0];
         })
         .catch((err) => {
             console.log(err);
         })
 }
 
-let getBrewery = (url) => {
+let getBreweryLinks = (url) => {
 
+    console.log('getting specific links', url.href);
+    // we are given a brewery list page
+    // go find all the brwery links
+    return fetch(url.href)
+        .then((resp) => {
+            return resp.text();
+        })
+        .then((body) => {
+            let $ = cheerio.load(body);
+            let filteredNodes = Array.prototype.filter.call($('a'), function(i) {
+                let link = $(i).attr('href');
+                if (link && link.startsWith('/beer/profile/')) {
+                    return true
+                } else {
+                    return false
+                }
+            });
+
+            let validLinks = filteredNodes.map((node) => {
+                return $(node).attr('href');
+            });
+            
+            return validLinks;
+        })
+        .catch((err) => {
+            console.log(err);
+        })
 }
 
 let getBeers = (url) => {
@@ -105,8 +131,8 @@ let getBeer = (url) => {
 
 export {
     findAvailableStateCodes,
-    getBreweriesCount,
-    getBrewery,
+    getBreweryCount,
+    getBreweryLinks,
     getBeers,
     getBeer
 }
