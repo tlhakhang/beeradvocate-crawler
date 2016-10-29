@@ -1,14 +1,17 @@
 'use strict';
 import {
+    findAvailableStateCodes,
+    getBreweriesCount,
     getBeers,
     getBeer
 } from './services/crawler-service';
 
 import RSVP from 'rsvp';
 import _ from 'lodash';
+import url from 'url';
 
 let config = {
-  address: 'https://beeradvocate.com'
+    address: 'https://beeradvocate.com'
 };
 
 let getBeerStats = () => {
@@ -21,17 +24,37 @@ let getBeerStats = () => {
         promises.push(getBeers(`${config.address}/beer/?start=${startKey}`));
     });
 
-    return RSVP.all(promises).then((results) => {
+    RSVP.all(promises).then((results) => {
         return _.flattenDeep(results);
     }).then((beerProfileLinks) => {
-      return beerProfileLinks.slice(0,10).map((link) => {
-        return getBeer(`${config.address}${link}`);
-      });
+        return beerProfileLinks.slice(0, 100).map((link) => {
+            return getBeer(`${config.address}${link}`);
+        });
     }).then((beerPromises) => {
-      RSVP.all(beerPromises).then((results) => {
-        console.log(results);
-      });
+        RSVP.all(beerPromises).then((results) => {
+            console.log(results);
+        });
     });
 }
 
-getBeerStats();
+//getBeerStats();
+
+let getStateLinks = () => {
+    findAvailableStateCodes(url.parse(`${config.address}/place/directory/0/US/`))
+        .then((validStateCodes) => {
+
+            // build your promises
+            let promises = [];
+
+            // go get the breweries count
+            validStateCodes.slice(0,2).map((stateCode) => {
+                promises.push(getBreweriesCount(url.parse(`${config.address}/place/list/?c_id=US&s_id=${stateCode}&brewery=Y`)))
+            });
+
+            return RSVP.all(promises);
+        }).then((result) => {
+          console.log(result);
+        });
+}
+
+getStateLinks();
