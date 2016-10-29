@@ -93,16 +93,14 @@
 
 	var getStateLinks = function getStateLinks() {
 	    (0, _crawlerService.findAvailableStateCodes)(_url2.default.parse(config.address + '/place/directory/0/US/')).then(function (validStateCodes) {
-
 	        // build your promises
-	        var promises = [];
+	        var promises = {};
 
 	        // go get the breweries count
-	        validStateCodes.slice(0, 2).map(function (stateCode) {
-	            promises.push((0, _crawlerService.getBreweriesCount)(_url2.default.parse(config.address + '/place/list/?c_id=US&s_id=' + stateCode + '&brewery=Y')));
+	        validStateCodes.map(function (stateCode) {
+	            promises[stateCode] = (0, _crawlerService.getBreweriesCount)(_url2.default.parse(config.address + '/place/list/?c_id=US&s_id=' + stateCode + '&brewery=Y'));
 	        });
-
-	        return _rsvp2.default.all(promises);
+	        return _rsvp2.default.hash(promises);
 	    }).then(function (result) {
 	        console.log(result);
 	    });
@@ -174,10 +172,10 @@
 	        return resp.text();
 	    }).then(function (body) {
 	        var $ = _cheerio2.default.load(body);
-	        // the below will selector will aim to get the #total and using that we can find how far to traverse this state page.
-	        var countText = $('#ba-content > table > tbody > tr > td > span').length;
-	        console.log(countText);
-	        return countText;
+	        //console.log(body);;
+	        // the below will selector will aim to get the total and using that we can find how far to traverse this state page.
+	        var countText = $('table tr td span b', '#ba-content').first().text();
+	        return countText.match(/out of (\d+)/g)[0].match(/(\d+)/g)[0];
 	    }).catch(function (err) {
 	        console.log(err);
 	    });

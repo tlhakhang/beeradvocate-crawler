@@ -51,10 +51,10 @@ let getBreweriesCount = (url) => {
         })
         .then((body) => {
           let $ = cheerio.load(body);
-          // the below will selector will aim to get the #total and using that we can find how far to traverse this state page.
-          let countText = $('#ba-content > table > tbody > tr > td > span').length
-          console.log(countText);
-          return countText
+          //console.log(body);;
+          // the below will selector will aim to get the total and using that we can find how far to traverse this state page.
+          let countText = $('table tr td span b', '#ba-content').first().text();
+          return countText.match(/out of (\d+)/g)[0].match(/(\d+)/g)[0];
         })
         .catch((err) => {
             console.log(err);

@@ -37,24 +37,22 @@ let getBeerStats = () => {
     });
 }
 
-//getBeerStats();
-
-let getStateLinks = () => {
+let getBeerStats = () => {
     findAvailableStateCodes(url.parse(`${config.address}/place/directory/0/US/`))
         .then((validStateCodes) => {
-
-            // build your promises
-            let promises = [];
+            let promises = {};
 
             // go get the breweries count
-            validStateCodes.slice(0,2).map((stateCode) => {
-                promises.push(getBreweriesCount(url.parse(`${config.address}/place/list/?c_id=US&s_id=${stateCode}&brewery=Y`)))
+            validStateCodes.map((stateCode) => {
+                promises[stateCode] = getBreweriesCount(url.parse(`${config.address}/place/list/?c_id=US&s_id=${stateCode}&brewery=Y`))
             });
 
-            return RSVP.all(promises);
-        }).then((result) => {
+            return RSVP.hash(promises);
+
+        }).then((breweryCountsPerState) => {
+          // this will now allow us to traverse the entire state's brewery list
           console.log(result);
         });
 }
 
-getStateLinks();
+getBeerStats();
