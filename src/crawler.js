@@ -15,39 +15,17 @@ let config = {
     address: 'https://beeradvocate.com'
 };
 
-let getBeerStatsOld = () => {
-    let promises = [];
-
-    _.range(0, 17).forEach((i) => {
-        let startKey = 0;
-        if (i != 0) startKey = 25 * i;
-        // console.log(startKey); -- debug the startKey variable
-        promises.push(getBeers(`${config.address}/beer/?start=${startKey}`));
-    });
-
-    RSVP.all(promises).then((results) => {
-        return _.flattenDeep(results);
-    }).then((beerProfileLinks) => {
-        return beerProfileLinks.slice(0, 100).map((link) => {
-            return getBeer(`${config.address}${link}`);
-        });
-    }).then((beerPromises) => {
-        RSVP.all(beerPromises).then((results) => {
-            console.log(results);
-        });
-    });
-}
-
 let getBeerStats = () => {
     findAvailableStateCodes(url.parse(`${config.address}/place/directory/0/US/`))
         .then((validStateCodes) => {
             let promises = {};
             // go get the breweries count
-            validStateCodes.slice(0,1).map((stateCode) => {
+            validStateCodes.slice(0, 1).map((stateCode) => {
                 promises[stateCode] = getBreweryCount(url.parse(`${config.address}/place/list/?c_id=US&s_id=${stateCode}&brewery=Y`))
             });
             return RSVP.hash(promises);
         }).then((breweryCountPerState) => {
+            // get all brewery links per state and condense them all to a large list of every brewery link
             let promises = [];
             console.log(breweryCountPerState);
             // this will now allow us to traverse the entire state's brewery list
@@ -58,9 +36,10 @@ let getBeerStats = () => {
             };
             return RSVP.all(promises);
         })
-        .then((breweries) => {
-            console.log(_.flattenDeep(breweries).length);
-        })
+        .then((breweryLink) => {
+            // get all beer links per brewery
+            return _.flattenDeep(breweryLink);
+        });
 }
 
 getBeerStats();
