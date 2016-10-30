@@ -1,3 +1,2 @@
 #!/bin/bash -x
-webpack
-node ./dist/crawler.js
+node debug src/crawler.js

@@ -1,7 +1,7 @@
-'use strict';
+'use strict'
 
-import fetch from 'node-fetch';
-import cheerio from 'cheerio';
+var fetch = require('node-fetch');
+var cheerio = require('cheerio');
 
 let findAvailableStateCodes = (url) => {
     return fetch(url.href)
@@ -143,7 +143,7 @@ let getBeer = (url) => {
     });
 }
 
-export {
+module.exports = {
     findAvailableStateCodes,
     getBreweryCount,
     getBreweryLinks,
