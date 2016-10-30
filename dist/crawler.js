@@ -63,21 +63,26 @@
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 	var config = {
-	    address: 'https://beeradvocate.com'
+	    address: 'http://beeradvocate.com'
 	};
 
 	var getBeerStats = function getBeerStats() {
 	    (0, _crawlerService.findAvailableStateCodes)(_url2.default.parse(config.address + '/place/directory/0/US/')).then(function (validStateCodes) {
+	        console.log('Received valid state codes: ' + validStateCodes);
+
 	        var promises = {};
 	        // go get the breweries count
-	        validStateCodes.slice(0, 1).map(function (stateCode) {
+	        validStateCodes.map(function (stateCode) {
 	            promises[stateCode] = (0, _crawlerService.getBreweryCount)(_url2.default.parse(config.address + '/place/list/?c_id=US&s_id=' + stateCode + '&brewery=Y'));
 	        });
 	        return _rsvp2.default.hash(promises);
 	    }).then(function (breweryCountPerState) {
+
+	        console.log('Received brewery count per state:');
+	        console.dir(breweryCountPerState);
+
 	        // get all brewery links per state and condense them all to a large list of every brewery link
 	        var promises = [];
-	        console.log(breweryCountPerState);
 	        // this will now allow us to traverse the entire state's brewery list
 
 	        var _loop = function _loop(stateCode) {
@@ -93,14 +98,25 @@
 	            return _lodash2.default.flattenDeep(result);
 	        });
 	    }).then(function (breweryLinks) {
-	        // get all beer links per brewery
+	        console.log('Received brewery links for every state: ' + breweryLinks.length + ' total breweries found.');
+	        // console.log(breweryLinks);
+	        //get all beer links per brewery
+
 	        var promises = [];
-	        breweryLinks.map(function (link) {
-	            promises.push((0, _crawlerService.getBeerLinks)(_url2.default.parse('' + config.address + link)));
+	        breweryLinks.slice(0, 10).forEach(function (link) {
+	            setTimeout(function () {
+	                promises.push((0, _crawlerService.getBeerLinks)(_url2.default.parse('' + config.address + link)));
+	            }, 1000);
 	        });
-	        return _rsvp2.default.all(promises);
+
+	        return _rsvp2.default.all(promises).then(function (result) {
+	            return _lodash2.default.flattenDeep(result);
+	        });
 	    }).then(function (beerLinks) {
-	        console.log(beerLinks);
+	        // got all the beer links
+	        beerLinks.map(function (link) {
+	            console.log('' + config.address + link);
+	        });
 	    });
 	};
 
@@ -223,8 +239,9 @@
 
 	        var validLinks = filteredNodes.map(function (node) {
 	            return $(node).attr('href');
+	        }).filter(function (links) {
+	            return links.match(/\/$/);
 	        });
-
 	        return validLinks;
 	    }).catch(function (err) {
 	        console.log(err);

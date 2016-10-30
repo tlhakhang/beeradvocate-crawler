@@ -110,8 +110,9 @@ let getBeerLinks = (url) => {
 
             let validLinks = filteredNodes.map((node) => {
                 return $(node).attr('href');
+            }).filter((links) => {
+              return links.match(/\/$/);
             });
-
             return validLinks;
         })
         .catch((err) => {
