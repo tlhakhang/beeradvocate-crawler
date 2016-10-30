@@ -20,7 +20,7 @@ let getBeerStats = () => {
     findAvailableStateCodes(url.parse(`${config.address}/place/directory/0/US/`))
         .then((validStateCodes) => {
             console.log(`Received valid state codes: ${validStateCodes}`);
-            
+
             let promises = {};
             // go get the breweries count
             validStateCodes.map((stateCode) => {
@@ -50,10 +50,8 @@ let getBeerStats = () => {
             //get all beer links per brewery
 
             var promises = [];
-            breweryLinks.slice(0, 10).forEach((link) => {
-                setTimeout(() => {
-                    promises.push(getBeerLinks(url.parse(`${config.address}${link}`)));
-                }, 1000);
+            breweryLinks.slice(0,2).forEach((link) => {
+                promises.push(getBeerLinks(url.parse(`${config.address}${link}`)));
             });
 
             return RSVP.all(promises).then((result) => {
@@ -61,6 +59,7 @@ let getBeerStats = () => {
             });
         })
         .then((beerLinks) => {
+          console.log(`Received beer links for every brewery: ${beerLinks.length} total beers found.`);
             // got all the beer links
             beerLinks.map((link) => {
                 console.log(`${config.address}${link}`);

@@ -103,16 +103,15 @@
 	        //get all beer links per brewery
 
 	        var promises = [];
-	        breweryLinks.slice(0, 10).forEach(function (link) {
-	            setTimeout(function () {
-	                promises.push((0, _crawlerService.getBeerLinks)(_url2.default.parse('' + config.address + link)));
-	            }, 1000);
+	        breweryLinks.slice(0, 2).forEach(function (link) {
+	            promises.push((0, _crawlerService.getBeerLinks)(_url2.default.parse('' + config.address + link)));
 	        });
 
 	        return _rsvp2.default.all(promises).then(function (result) {
 	            return _lodash2.default.flattenDeep(result);
 	        });
 	    }).then(function (beerLinks) {
+	        console.log('Received beer links for every brewery: ' + beerLinks.length + ' total beers found.');
 	        // got all the beer links
 	        beerLinks.map(function (link) {
 	            console.log('' + config.address + link);

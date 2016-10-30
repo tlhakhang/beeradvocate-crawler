@@ -1,60 +1,230 @@
-Hash: efa08c8f9472954b4965
+Hash: 516edbe9e8bd5fa1a723
 Version: webpack 1.13.2
-Time: 2779ms
+Time: 2863ms
      Asset     Size  Chunks             Chunk Names
 crawler.js  10.2 kB       0  [emitted]  main
     + 7 hidden modules
 Received valid state codes: AL,AK,AZ,AR,CA,CO,CT,DE,DC,FL,GA,HI,ID,IL,IN,IA,KS,KY,LA,ME,MD,MA,MI,MN,MS,MO,MT,NE,NV,NH,NJ,NM,NY,NC,ND,OH,OK,OR,PA,RI,SC,SD,TN,TX,UT,VT,VA,WA,WV,WI,WY
 Received brewery count per state:
-{ HI: '18',
-  VT: '66',
-  AL: '33',
-  CO: '331',
-  AR: '27',
+{ KY: '39',
   AZ: '88',
-  AK: '30',
+  KS: '38',
+  OK: '26',
+  DE: '20',
+  AR: '27',
+  ID: '53',
   CT: '70',
+  MD: '85',
+  LA: '30',
+  FL: '230',
+  DC: '13',
+  NE: '35',
+  MT: '64',
+  IA: '66',
+  MO: '86',
+  MS: '14',
+  AL: '33',
+  OH: '156',
+  MI: '252',
+  MN: '145',
+  OR: '241',
+  IN: '138',
+  GA: '59',
   ND: '11',
   ME: '83',
-  MN: '145',
+  WA: '335',
+  NJ: '83',
+  AK: '30',
+  CO: '331',
+  VT: '66',
+  TX: '217',
+  NH: '59',
+  WV: '18',
   VA: '166',
+  CA: '716',
+  NV: '41',
+  NY: '315',
+  NC: '194',
+  PA: '251',
+  NM: '63',
+  UT: '25',
+  IL: '216',
+  MA: '136',
+  SC: '53',
+  HI: '18',
+  WY: '28',
   RI: '19',
   WI: '172',
-  CA: '716',
-  KS: '38',
-  WY: '28',
-  IA: '66',
-  OK: '26',
-  IN: '138',
-  KY: '39',
-  WV: '18',
-  ID: '53',
-  NY: '315',
-  IL: '216',
-  MT: '64',
-  SC: '53',
-  WA: '335',
-  MS: '14',
-  TX: '217',
-  MD: '85',
-  NV: '41',
-  TN: '68',
-  GA: '59',
-  FL: '230',
-  OH: '156',
-  NJ: '83',
-  NC: '194',
-  DC: '13',
-  DE: '20',
-  LA: '30',
-  NE: '35',
-  MI: '252',
-  NH: '59',
-  NM: '63',
-  MA: '136',
-  MO: '86',
-  UT: '25',
   SD: '18',
-  PA: '251',
-  OR: '241' }
+  TN: '68' }
 Received brewery links for every state: 5740 total breweries found.
+Received beer links for every brewery: 169 total beers found.
+http://beeradvocate.com/beer/profile/26850/186478/
+http://beeradvocate.com/beer/profile/26850/205187/
+http://beeradvocate.com/beer/profile/26850/86492/
+http://beeradvocate.com/beer/profile/26850/93510/
+http://beeradvocate.com/beer/profile/26850/216802/
+http://beeradvocate.com/beer/profile/26850/99724/
+http://beeradvocate.com/beer/profile/26850/130740/
+http://beeradvocate.com/beer/profile/26850/223956/
+http://beeradvocate.com/beer/profile/26850/254462/
+http://beeradvocate.com/beer/profile/26850/235085/
+http://beeradvocate.com/beer/profile/26850/111644/
+http://beeradvocate.com/beer/profile/26850/109359/
+http://beeradvocate.com/beer/profile/26850/132109/
+http://beeradvocate.com/beer/profile/26850/191833/
+http://beeradvocate.com/beer/profile/26850/173636/
+http://beeradvocate.com/beer/profile/26850/241913/
+http://beeradvocate.com/beer/profile/26850/85552/
+http://beeradvocate.com/beer/profile/26850/220312/
+http://beeradvocate.com/beer/profile/26850/84545/
+http://beeradvocate.com/beer/profile/26850/215799/
+http://beeradvocate.com/beer/profile/26850/116651/
+http://beeradvocate.com/beer/profile/26850/246160/
+http://beeradvocate.com/beer/profile/26850/85986/
+http://beeradvocate.com/beer/profile/26850/201228/
+http://beeradvocate.com/beer/profile/26850/201229/
+http://beeradvocate.com/beer/profile/26850/201227/
+http://beeradvocate.com/beer/profile/26850/254521/
+http://beeradvocate.com/beer/profile/26850/254520/
+http://beeradvocate.com/beer/profile/26850/205186/
+http://beeradvocate.com/beer/profile/26850/97575/
+http://beeradvocate.com/beer/profile/26850/91542/
+http://beeradvocate.com/beer/profile/26850/253759/
+http://beeradvocate.com/beer/profile/26850/113051/
+http://beeradvocate.com/beer/profile/26850/171155/
+http://beeradvocate.com/beer/profile/26850/99212/
+http://beeradvocate.com/beer/profile/26850/171154/
+http://beeradvocate.com/beer/profile/26850/221753/
+http://beeradvocate.com/beer/profile/26850/180379/
+http://beeradvocate.com/beer/profile/26850/79405/
+http://beeradvocate.com/beer/profile/26850/100582/
+http://beeradvocate.com/beer/profile/26850/250922/
+http://beeradvocate.com/beer/profile/26850/118233/
+http://beeradvocate.com/beer/profile/26850/236454/
+http://beeradvocate.com/beer/profile/26850/171157/
+http://beeradvocate.com/beer/profile/26850/89613/
+http://beeradvocate.com/beer/profile/26850/198014/
+http://beeradvocate.com/beer/profile/26850/150530/
+http://beeradvocate.com/beer/profile/26850/101586/
+http://beeradvocate.com/beer/profile/26850/83588/
+http://beeradvocate.com/beer/profile/26850/156580/
+http://beeradvocate.com/beer/profile/26850/184995/
+http://beeradvocate.com/beer/profile/26850/183166/
+http://beeradvocate.com/beer/profile/26850/114863/
+http://beeradvocate.com/beer/profile/26850/208559/
+http://beeradvocate.com/beer/profile/26850/237276/
+http://beeradvocate.com/beer/profile/26850/222374/
+http://beeradvocate.com/beer/profile/26850/78463/
+http://beeradvocate.com/beer/profile/26850/152132/
+http://beeradvocate.com/beer/profile/26850/113779/
+http://beeradvocate.com/beer/profile/26850/139504/
+http://beeradvocate.com/beer/profile/26850/196718/
+http://beeradvocate.com/beer/profile/26850/207026/
+http://beeradvocate.com/beer/profile/26850/225522/
+http://beeradvocate.com/beer/profile/26850/117816/
+http://beeradvocate.com/beer/profile/26850/87535/
+http://beeradvocate.com/beer/profile/26850/196716/
+http://beeradvocate.com/beer/profile/26850/90239/
+http://beeradvocate.com/beer/profile/26850/114862/
+http://beeradvocate.com/beer/profile/26850/81377/
+http://beeradvocate.com/beer/profile/26850/246244/
+http://beeradvocate.com/beer/profile/26850/117815/
+http://beeradvocate.com/beer/profile/26850/168135/
+http://beeradvocate.com/beer/profile/26850/135453/
+http://beeradvocate.com/beer/profile/26850/93991/
+http://beeradvocate.com/beer/profile/26850/173623/
+http://beeradvocate.com/beer/profile/26850/193241/
+http://beeradvocate.com/beer/profile/26850/225361/
+http://beeradvocate.com/beer/profile/26850/196216/
+http://beeradvocate.com/beer/profile/26850/99450/
+http://beeradvocate.com/beer/profile/26850/88132/
+http://beeradvocate.com/beer/profile/26850/88141/
+http://beeradvocate.com/beer/profile/26850/147432/
+http://beeradvocate.com/beer/profile/26850/80169/
+http://beeradvocate.com/beer/profile/26850/78698/
+http://beeradvocate.com/beer/profile/26850/160601/
+http://beeradvocate.com/beer/profile/26850/132108/
+http://beeradvocate.com/beer/profile/26850/196724/
+http://beeradvocate.com/beer/profile/26850/244780/
+http://beeradvocate.com/beer/profile/26850/196712/
+http://beeradvocate.com/beer/profile/26850/117822/
+http://beeradvocate.com/beer/profile/26850/78933/
+http://beeradvocate.com/beer/profile/26850/90015/
+http://beeradvocate.com/beer/profile/26850/253756/
+http://beeradvocate.com/beer/profile/26850/91910/
+http://beeradvocate.com/beer/profile/26850/196722/
+http://beeradvocate.com/beer/profile/26850/212268/
+http://beeradvocate.com/beer/profile/26850/212270/
+http://beeradvocate.com/beer/profile/26850/199410/
+http://beeradvocate.com/beer/profile/26850/232923/
+http://beeradvocate.com/beer/profile/26850/216697/
+http://beeradvocate.com/beer/profile/26850/84795/
+http://beeradvocate.com/beer/profile/26850/134787/
+http://beeradvocate.com/beer/profile/26850/205189/
+http://beeradvocate.com/beer/profile/26850/251990/
+http://beeradvocate.com/beer/profile/26850/207802/
+http://beeradvocate.com/beer/profile/26850/201400/
+http://beeradvocate.com/beer/profile/26850/84543/
+http://beeradvocate.com/beer/profile/26850/81272/
+http://beeradvocate.com/beer/profile/26850/120943/
+http://beeradvocate.com/beer/profile/26850/234548/
+http://beeradvocate.com/beer/profile/26850/116967/
+http://beeradvocate.com/beer/profile/26850/222373/
+http://beeradvocate.com/beer/profile/26850/226705/
+http://beeradvocate.com/beer/profile/26850/243302/
+http://beeradvocate.com/beer/profile/26850/223935/
+http://beeradvocate.com/beer/profile/26850/134231/
+http://beeradvocate.com/beer/profile/26850/79828/
+http://beeradvocate.com/beer/profile/26850/224362/
+http://beeradvocate.com/beer/profile/26850/198630/
+http://beeradvocate.com/beer/profile/26850/152135/
+http://beeradvocate.com/beer/profile/26850/205188/
+http://beeradvocate.com/beer/profile/26850/104992/
+http://beeradvocate.com/beer/profile/26850/85193/
+http://beeradvocate.com/beer/profile/26850/142916/
+http://beeradvocate.com/beer/profile/26850/176739/
+http://beeradvocate.com/beer/profile/26850/132127/
+http://beeradvocate.com/beer/profile/26850/196714/
+http://beeradvocate.com/beer/profile/26850/109730/
+http://beeradvocate.com/beer/profile/26850/197018/
+http://beeradvocate.com/beer/profile/26850/196717/
+http://beeradvocate.com/beer/profile/26850/123551/
+http://beeradvocate.com/beer/profile/26850/181706/
+http://beeradvocate.com/beer/profile/26850/186359/
+http://beeradvocate.com/beer/profile/26850/196711/
+http://beeradvocate.com/beer/profile/26850/109740/
+http://beeradvocate.com/beer/profile/26850/174328/
+http://beeradvocate.com/beer/profile/26850/116966/
+http://beeradvocate.com/beer/profile/26850/97993/
+http://beeradvocate.com/beer/profile/26850/206786/
+http://beeradvocate.com/beer/profile/26850/190696/
+http://beeradvocate.com/beer/profile/26850/89368/
+http://beeradvocate.com/beer/profile/26850/103801/
+http://beeradvocate.com/beer/profile/26850/173628/
+http://beeradvocate.com/beer/profile/26850/134784/
+http://beeradvocate.com/beer/profile/26850/173632/
+http://beeradvocate.com/beer/profile/26850/171156/
+http://beeradvocate.com/beer/profile/26850/156577/
+http://beeradvocate.com/beer/profile/26850/80692/
+http://beeradvocate.com/beer/profile/26850/132279/
+http://beeradvocate.com/beer/profile/26850/114860/
+http://beeradvocate.com/beer/profile/26850/212269/
+http://beeradvocate.com/beer/profile/26850/169265/
+http://beeradvocate.com/beer/profile/26850/183867/
+http://beeradvocate.com/beer/profile/26850/181704/
+http://beeradvocate.com/beer/profile/26850/89365/
+http://beeradvocate.com/beer/profile/26850/173626/
+http://beeradvocate.com/beer/profile/26850/152134/
+http://beeradvocate.com/beer/profile/26850/211742/
+http://beeradvocate.com/beer/profile/26850/232237/
+http://beeradvocate.com/beer/profile/26850/171153/
+http://beeradvocate.com/beer/profile/26850/117823/
+http://beeradvocate.com/beer/profile/26850/173625/
+http://beeradvocate.com/beer/profile/26850/147570/
+http://beeradvocate.com/beer/profile/26850/106004/
+http://beeradvocate.com/beer/profile/26850/183582/
+http://beeradvocate.com/beer/profile/26850/225360/
+http://beeradvocate.com/beer/profile/26850/134230/
+http://beeradvocate.com/beer/profile/26850/218001/
+http://beeradvocate.com/beer/profile/26850/247131/
