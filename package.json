@@ -28,6 +28,7 @@
     "webpack": "^1.13.2"
   },
   "devDependencies": {
+    "babel-polyfill": "^6.16.0",
     "webpack-node-externals": "^1.5.4"
   }
 }

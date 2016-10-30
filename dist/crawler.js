@@ -68,8 +68,6 @@
 
 	var getBeerStats = function getBeerStats() {
 	    (0, _crawlerService.findAvailableStateCodes)(_url2.default.parse(config.address + '/place/directory/0/US/')).then(function (validStateCodes) {
-	        console.log('Received valid state codes: ' + validStateCodes);
-
 	        var promises = {};
 	        // go get the breweries count
 	        validStateCodes.map(function (stateCode) {
@@ -77,13 +75,7 @@
 	        });
 	        return _rsvp2.default.hash(promises);
 	    }).then(function (breweryCountPerState) {
-
-	        console.log('Received brewery count per state:');
-	        console.dir(breweryCountPerState);
-
-	        // get all brewery links per state and condense them all to a large list of every brewery link
 	        var promises = [];
-	        // this will now allow us to traverse the entire state's brewery list
 
 	        var _loop = function _loop(stateCode) {
 	            _lodash2.default.range(0, breweryCountPerState[stateCode], 20).forEach(function (startKey) {
@@ -98,12 +90,9 @@
 	            return _lodash2.default.flattenDeep(result);
 	        });
 	    }).then(function (breweryLinks) {
-	        console.log('Received brewery links for every state: ' + breweryLinks.length + ' total breweries found.');
-	        // console.log(breweryLinks);
-	        //get all beer links per brewery
-
+	        // do things with brewery links
 	        var promises = [];
-	        breweryLinks.slice(0, 2).forEach(function (link) {
+	        breweryLinks.map(function (link) {
 	            promises.push((0, _crawlerService.getBeerLinks)(_url2.default.parse('' + config.address + link)));
 	        });
 
@@ -111,11 +100,7 @@
 	            return _lodash2.default.flattenDeep(result);
 	        });
 	    }).then(function (beerLinks) {
-	        console.log('Received beer links for every brewery: ' + beerLinks.length + ' total beers found.');
-	        // got all the beer links
-	        beerLinks.map(function (link) {
-	            console.log('' + config.address + link);
-	        });
+	        // do things with beer links
 	    });
 	};
 
@@ -171,7 +156,6 @@
 	        }).filter(function (code) {
 	            return code.length === 2;
 	        });
-
 	        return validStateCodes;
 	    }).catch(function (err) {
 	        console.log(err);
@@ -212,7 +196,9 @@
 	        var validLinks = filteredNodes.map(function (node) {
 	            return $(node).attr('href');
 	        });
-
+	        validLinks.map(function (link) {
+	            return console.log('brewery profile,' + url.protocol + '//' + url.hostname + link);
+	        });
 	        return validLinks;
 	    }).catch(function (err) {
 	        console.log(err);
@@ -240,6 +226,9 @@
 	            return $(node).attr('href');
 	        }).filter(function (links) {
 	            return links.match(/\/$/);
+	        });
+	        validLinks.map(function (link) {
+	            return console.log('beer profile,' + url.protocol + '//' + url.hostname + link);
 	        });
 	        return validLinks;
 	    }).catch(function (err) {

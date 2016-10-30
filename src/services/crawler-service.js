@@ -34,7 +34,6 @@ let findAvailableStateCodes = (url) => {
             }).filter((code) => {
                 return code.length === 2;
             });
-
             return validStateCodes;
         })
         .catch((err) => {
@@ -81,7 +80,7 @@ let getBreweryLinks = (url) => {
             let validLinks = filteredNodes.map((node) => {
                 return $(node).attr('href');
             });
-
+            validLinks.map((link) => console.log(`brewery profile,${url.protocol}//${url.hostname}${link}`))
             return validLinks;
         })
         .catch((err) => {
@@ -113,6 +112,7 @@ let getBeerLinks = (url) => {
             }).filter((links) => {
               return links.match(/\/$/);
             });
+            validLinks.map((link) => console.log(`beer profile,${url.protocol}//${url.hostname}${link}`))
             return validLinks;
         })
         .catch((err) => {
