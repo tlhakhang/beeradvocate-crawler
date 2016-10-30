@@ -26,6 +26,7 @@ let getBeerStats = () => {
             });
             return RSVP.hash(promises);
         }).then((breweryCountPerState) => {
+            console.log(breweryCountPerState);
             let promises = [];
             for (let stateCode in breweryCountPerState) {
                 _.range(0, breweryCountPerState[stateCode], 20).forEach((startKey) => {
@@ -37,6 +38,7 @@ let getBeerStats = () => {
             });
         })
         .then((breweryLinks) => {
+          
           // do things with brewery links
             var promises = [];
             breweryLinks.map((link) => {
