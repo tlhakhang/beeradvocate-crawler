@@ -1,7 +1,7 @@
 'use strict'
 
-var fetch = require('node-fetch');
-var cheerio = require('cheerio');
+const fetch = require('node-fetch');
+const cheerio = require('cheerio');
 
 let findAvailableStateCodes = (url) => {
     return fetch(url.href)

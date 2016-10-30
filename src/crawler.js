@@ -1,9 +1,8 @@
 'use strict'
-var crawlerService = require('./services/crawler-service');
-
-var RSVP = require('rsvp');
-var _ = require('lodash');
-var url = require('url');
+const crawlerService = require('./services/crawler-service');
+const RSVP = require('rsvp');
+const _ = require('lodash');
+const url = require('url');
 
 let config = {
     address: 'http://beeradvocate.com'
