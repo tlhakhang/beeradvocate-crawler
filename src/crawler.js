@@ -50,7 +50,7 @@ let getBeerStats = () => {
             //get all beer links per brewery
 
             var promises = [];
-            breweryLinks.slice(0,2).forEach((link) => {
+            breweryLinks.map((link) => {
                 promises.push(getBeerLinks(url.parse(`${config.address}${link}`)));
             });
 
