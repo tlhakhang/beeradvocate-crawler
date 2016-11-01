@@ -1,5 +1,4 @@
 'use strict'
-
 const fetch = require('node-fetch');
 const cheerio = require('cheerio');
 
@@ -79,8 +78,8 @@ let getBreweryLinks = (url) => {
                 return `${link}?view=beers&show=all`;
               }
             });
-
-            validLinks.map((link) => console.log(`brewery profile, ${url.protocol}//${url.hostname}${link}`))
+            // for debugging
+            // validLinks.map((link) => console.log(`brewery profile, ${url.protocol}//${url.hostname}${link}`))
             return validLinks;
         }).catch((err) => {
             console.log(err);
@@ -109,7 +108,8 @@ let getBeerLinks = (url) => {
             }).filter((link) => {
                 return (link.match(/\/$/) && !link.endsWith(url.path.split('?')[0]));
             });
-            validLinks.map((link) => console.log(`beer profile, ${url.protocol}//${url.hostname}${link}`))
+            // for debugging
+            // validLinks.map((link) => console.log(`beer profile, ${url.protocol}//${url.hostname}${link}`))
             return validLinks;
         }).catch((err) => {
             console.log(err);
