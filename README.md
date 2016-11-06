@@ -23,13 +23,13 @@ The retrieved data files are located in the folder data/
 
 `data/beers.csv` - This file contians a comma-separated values (csv) of beer data from the beer profile pages.
 
-# Data Retrieval Workflow
+# workflow
 1. Run the `src/get-breweries.js` program, it will generate an output of all brewery profile links (located in the United States).  Collect its output to a file in the data folder: `data/breweries.log`.  Example:  `node src/get-breweries.js > data/breweries.log`
 
 2. Run the `src/get-beers.js` program and pass a brewery profile link as an argument. This program will generate an output that contains all the beer profile links found on the brewery profile page.  Collect its output to a file in the data folder: `data/beers.log`.
-  * Single Example:  `node src/get-beers.js "https://beeradvocate.com/beer/profile/38897/?view=beers&show=all"` 
-  * Automated Example `cat data/breweries.log | xargs -P 10 -I {} node src/get-beers.js {} > data/beers.log`
+  * **Single Example:**  `node src/get-beers.js "https://beeradvocate.com/beer/profile/38897/?view=beers&show=all"` 
+  * **Automated Example:** `cat data/breweries.log | xargs -P 10 -I {} node src/get-beers.js {} > data/beers.log`
 
 3. Run the `src/get-beer.js` program and pass a beer profile link as an argument.  This program will generate a comma-separated value that contains all the relevant beer data. Collect its output to a file in the data folder: `data/beers.csv'.
-  * Single Example: `node src/get-beer.js "https://beeradvocate.com/beer/profile/38897/233386/"`
-  * Automated Example: `cat data/beers.log | xargs -P 10 -I {} node src/get-beer.js {} > data/beer.csv`
+  * **Single Example:** `node src/get-beer.js "https://beeradvocate.com/beer/profile/38897/233386/"`
+  * **Automated Example:** `cat data/beers.log | xargs -P 10 -I {} node src/get-beer.js {} > data/beer.csv`
