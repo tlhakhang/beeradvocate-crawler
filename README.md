@@ -12,7 +12,7 @@ This application is broken down into several smaller modules located under the s
 
 `src/get-beer.js` - This program retrieves all relevalant beer informatino from the given beer profile page link.  This program takes one argument -- the beer profile page link.
 
-src/services/crawler-service.js - This is a function library that is used by src/get-breweries.js, src/get-beers.js, src/get-beer.js.  This file contains all of the logic performed in parsing the beer and breweries profile pages.
+`src/services/crawler-service.js` - This is a function library that is used by `src/get-breweries.js`, `src/get-beers.js`, `src/get-beer.js`.  This file contains all of the logic performed in parsing the beer and breweries profile pages.
 
 ## data/ folder
 The retrieved data files are located in the folder data/
