@@ -1,5 +1,5 @@
-# Summary
-The beeradvocate-crawler is a NodeJS application that systematically retrieves beer information from all beer profile pages on http://beeradvocate.com
+# beeradvocate-crawler
+The beeradvocate-crawler is a NodeJS application that systematically retrieves beer information from all beer profile pages from breweries in the United States on http://beeradvocate.com.
 
 ##  src/ folder
 This application is broken down into several smaller modules located under the src/ folder.
@@ -22,3 +22,10 @@ The retrieved data files are located in the folder data/
 `data/beers.log` - This file contains a list of retrieved beer profile links.
 
 `data/beers.csv` - This file contians a comma-separated values (csv) of beer data from the beer profile pages.
+
+# Data Retrieval Workflow
+1. Run the `src/get-breweries.js` program, it will generate an output of all brewery profile links (located in the United States).  Collect its output to a file in the data folder.  Example:  `node src/get-breweries.js > data/breweries.log`
+
+2. Run the `src/get-beers.js` program and pass a brewery profile link as an argument.  
+- Single Example:  `node src/get-beers.js "https://beeradvocate.com/beer/profile/38897/?view=beers&show=all"` 
+
