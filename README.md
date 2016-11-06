@@ -24,6 +24,8 @@ The retrieved data files are located in the folder data/
 `data/beers.csv` - This file contians a comma-separated values (csv) of beer data from the beer profile pages.
 
 # workflow
+Diagram of the workflow:  [ `src/get-breweries.js` ] =outputs=> { brewery profile links } =input=> [ `src/get-beers.js` ] =outputs=> { beer profile links } =input=> [ `src/get-beer.js`] =outputs=> { beer csv data }
+
 1. Run the `src/get-breweries.js` program, it will generate an output of all brewery profile links (located in the United States).  Collect its output to a file in the data folder: `data/breweries.log`.  Example:  `node src/get-breweries.js > data/breweries.log`
 
 2. Run the `src/get-beers.js` program and pass a brewery profile link as an argument. This program will generate an output that contains all the beer profile links found on the brewery profile page.  Collect its output to a file in the data folder: `data/beers.log`.
