@@ -35,3 +35,6 @@ Diagram of the workflow:  [ `src/get-breweries.js` ] =outputs=> { brewery profil
 3. Run the `src/get-beer.js` program and pass a beer profile link as an argument.  This program will generate a comma-separated value that contains all the relevant beer data. Collect its output to a file in the data folder: `data/beers.csv'.
   * **Single Example:** `node src/get-beer.js "https://beeradvocate.com/beer/profile/38897/233386/"`
   * **Automated Example:** `cat data/beers.log | xargs -P 10 -I {} node src/get-beer.js {} > data/beer.csv`
+
+# todo
+The above automated examples comment:  consider re-factoring to use fork and send messages between the parent processes and child processes.  This code was written before I finished reading the nodejs api doc.
