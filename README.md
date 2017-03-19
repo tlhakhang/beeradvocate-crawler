@@ -37,4 +37,6 @@ Diagram of the workflow:  [ `src/get-breweries.js` ] =outputs=> { brewery profil
   * **Automated Example:** `cat data/beers.log | xargs -P 10 -I {} node src/get-beer.js {} > data/beer.csv`
 
 # todo
-The above automated examples comment:  consider re-factoring to use fork and send messages between the parent processes and child processes.  This code was written before I finished reading the nodejs api doc.
+The above automated examples comment: 
+* consider re-factoring to use fork and send messages between the parent process and child processes.  
+* this code was written before I finished reading the nodejs api doc.
